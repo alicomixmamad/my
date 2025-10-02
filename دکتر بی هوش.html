@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>دکتر بی هوش</title>
+  <style>
+    body {
+      font-family: 'Tahoma', sans-serif;
+      background: linear-gradient(to right, #00e1ff, #fbfbfb);
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      background: #80ffe1;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #000000;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #976b6b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #004d40;
+    }
+
+    .response {
+      margin-top: 20px;
+      background: #f1f8e9;
+      padding: 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .response ul {
+      padding-right: 20px;
+    }
+
+    .response li {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>👨‍⚕️دکتر هوش مصنوعی</h1>
+    <input type="text" id="question" placeholder="سوال پزشکی خود را وارد کنید...">
+    <button onclick="getAnswer()">پرسش</button>
+    <div class="response" id="answer"></div>
+  </div>
+
+  <script>
+    function getAnswer() {
+      const question = document.getElementById("question").value.toLowerCase();
+      const answerBox = document.getElementById("answer");
+      let responses = [];
+
+      const database = [
+        {
+          keywords: ["سرماخوردگی", "سرفه", "آبریزش"],
+          replies: [
+            "مایعات گرم بنوشید بنوشید",
+            "کمی استراحت کنید",
+            "ویتامین C مصرف کنید",
+          ]
+        },
+        {
+          keywords: ["تب", "درجه حرارت", "گرما"],
+          replies: [
+            "اگر دمای بدن به بیشتر از 38.5 برسد باید آن را جدی بگیرید",
+            "داروهای تب‌بر مثل استامینوفن مفیدند",
+            "بدن را خنک نگه دارید و مایعات بنوشید"
+          ]
+        },
+        {
+          keywords: ["دل درد", "معده", "شکم"],
+          replies: [
+            "ممکن است ناشی از تغذیه یا استرس باشد",
+            "اگر با تهوع یا تب همراه است، جدی بگیرید",
+            "کمتر غذا بخور"
+          ]
+        },
+        {
+          keywords: ["سردرد", "میگرن" ],
+          replies: [
+            "کم‌آبی، خستگی یا استرس می‌تواند علت باشد",
+            "استراحت و نوشیدن آب توصیه می‌شود",
+            "نور زیاد و صدا را کاهش دهید"
+          ]
+        },
+        {
+          keywords: ["فشار خون", "فشار بالا"],
+          replies: [
+            "رژیم کم‌نمک و ورزش منظم توصیه می‌شود",
+            "اندازه‌گیری منظم فشار خون مهم است",
+            "در صورت بالا بودن، دارو تجویز می‌شود"
+          ]
+        },
+        {
+          keywords: ["دیابت", "قند خون"],
+          replies: [
+            "کنترل قند خون با رژیم غذایی و دارو ضروری است",
+            "فعالیت بدنی منظم کمک‌کننده است",
+            "مصرف قندهای ساده را محدود کنید"
+          ]
+        }
+      ];
+
+      let found = false;
+
+      for (let item of database) {
+        for (let keyword of item.keywords) {
+          if (question.includes(keyword)) {
+            let html = "<strong>پاسخ‌های پیشنهادی:</strong><ul>";
+            item.replies.forEach(reply => {
+              html += `<li>${reply}</li>`;
+            });
+            html += "</ul><p>در صورت ادامه دار بودن علائم لطفا با من صحبت نکنید</p>";
+            answerBox.innerHTML = html;
+            found = true;
+            break;
+          }
+        }
+        if (found) break;
+      }
+
+      if (!found) {
+        answerBox.innerHTML = "<p>❌ متأسفم، سوال شما خارج از محدوده‌ی اطلاعات فعلی من است. لطفاً سوال را دقیق‌تر مطرح کنید یا با پزشک مشورت نمایید.</p>";
+      }
+    }
+  </script>
+</body>
+</html>

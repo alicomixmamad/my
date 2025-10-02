@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>امیر — خالق تجربه‌های تعاملی</title>
+  <meta name="description" content="سایت معرفی امیر: خلاقیت کدنویسی، بازی‌های وب، هنر دیجیتال و ربات‌های هوشمند." />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b0f1a;
+      --fg:#e5e7eb;
+      --muted:#9ca3af;
+      --brand:#8b5cf6;
+      --accent:#06b6d4;
+      --border:rgba(148,163,184,0.18);
+      --glass:rgba(15,23,42,0.55);
+      --card:#0f172a;
+      --pink:#ec4899;
+      --gold:#f59e0b;
+      --ok:#22c55e;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--fg); background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(139,92,246,0.16), transparent 50%),
+        radial-gradient(900px 600px at 80% 20%, rgba(6,182,212,0.14), transparent 50%),
+        linear-gradient(180deg, var(--bg), var(--bg) 60%);
+      font-family:"Vazirmatn", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      overflow-x:hidden;
+    }
+
+    /* canvases */
+    #particles, #glow{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+    }
+    #glow{ filter: blur(40px) saturate(140%); opacity:.45 }
+
+    /* layout */
+    .container{ max-width:1100px; margin:0 auto; padding:0 20px }
+    header{
+      position:sticky; top:0; z-index:5; backdrop-filter: blur(10px);
+      background:linear-gradient(180deg, rgba(11,15,26,0.75), rgba(11,15,26,0.35));
+      border-bottom:1px solid var(--border);
+    }
+    .nav-bar{
+      display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 0;
+    }
+    .logo{ display:flex; align-items:center; gap:12px; font-weight:900; letter-spacing:.2px }
+    .logo-badge{
+      width:40px; height:40px; border-radius:12px;
+      display:grid; place-items:center; color:white;
+      background:linear-gradient(135deg, var(--brand), var(--accent));
+      box-shadow:0 8px 30px rgba(139,92,246,0.35), inset 0 0 12px rgba(255,255,255,0.15);
+    }
+    nav a{
+      color:#cbd5e1; text-decoration:none; font-weight:700; font-size:14px;
+      padding:8px 12px; border-radius:10px; border:1px solid transparent;
+    }
+    nav a:hover{ border-color:var(--border); background:rgba(255,255,255,0.03) }
+
+    /* hero */
+    .hero{ position:relative; z-index:1; padding:40px 0 20px }
+    .grid{
+      display:grid; grid-template-columns:1.2fr .8fr; gap:26px;
+    }
+    @media (max-width:900px){ .grid{ grid-template-columns:1fr } }
+    .card{
+      background:var(--glass); border:1px solid var(--border); border-radius:18px;
+      box-shadow:0 20px 80px rgba(0,0,0,0.35); overflow:hidden; position:relative;
+    }
+    .pad{ padding:26px }
+    .title{
+      font-size:clamp(28px, 4.6vw, 54px); line-height:1.1; margin:8px 0 10px; font-weight:900;
+      background: linear-gradient(180deg, #fff, #d1d5db);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      text-shadow:0 10px 50px rgba(167,139,250,0.25);
+    }
+    .subtitle{ color:var(--muted); font-size:16px; line-height:1.9; margin:0 0 18px }
+    .badges{ display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 20px }
+    .badge{
+      border:1px solid var(--border); background: rgba(255,255,255,0.03);
+      padding:8px 12px; border-radius:999px; font-size:12px; color:#cbd5e1; font-weight:800;
+    }
+    .cta{ display:flex; flex-wrap:wrap; gap:12px; align-items:center }
+    .btn{
+      padding:12px 16px; border-radius:12px; border:1px solid var(--border);
+      color:white; font-weight:900; letter-spacing:.2px; cursor:pointer;
+      background:linear-gradient(135deg, rgba(139,92,246,.25), rgba(6,182,212,.25));
+      backdrop-filter: blur(8px);
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .btn:hover{ transform: translateY(-2px); border-color: rgba(167,139,250,.6); box-shadow:0 12px 40px rgba(139,92,246,0.25) }
+    .btn.ghost{ background:transparent }
+
+    .stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:16px }
+    @media (max-width:540px){ .stats{ grid-template-columns:1fr 1fr } }
+    .stat{
+      background: rgba(255,255,255,0.02); border:1px solid var(--border);
+      padding:14px; border-radius:14px; text-align:center;
+    }
+    .stat strong{ display:block; font-size:22px }
+    .stat span{ color:var(--muted); font-size:12px }
+
+    /* sidebar minis */
+    .mini{ padding:16px; border-radius:16px; border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); }
+    .mini h4{ margin:0 0 8px; font-size:16px }
+    .mini p{ margin:0; color:#cbd5e1; font-size:13px; line-height:1.9 }
+
+    /* sections */
+    section.section{ position:relative; z-index:1; padding:24px 0 }
+    .sec-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px }
+    .sec-head h3{ margin:0; font-size:20px }
+    .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px }
+    @media (max-width:900px){ .grid-3{ grid-template-columns:1fr 1fr } }
+    @media (max-width:640px){ .grid-3{ grid-template-columns:1fr } }
+
+    /* project tiles */
+    .tile{
+      border:1px solid var(--border); border-radius:16px; overflow:hidden; background:rgba(255,255,255,0.03);
+      transition: transform .2s ease; display:flex; flex-direction:column;
+    }
+    .tile:hover{ transform: translateY(-4px) }
+    .thumb{
+      aspect-ratio:16/9; background:
+        radial-gradient(300px 200px at 20% 30%, rgba(139,92,246,.35), transparent 60%),
+        radial-gradient(280px 220px at 80% 60%, rgba(6,182,212,.35), transparent 60%),
+        #0f172a; border-bottom:1px solid var(--border);
+    }
+    .tile .body{ padding:14px }
+    .tile h4{ margin:0 0 6px; font-size:16px }
+    .tile p{ margin:0; color:#a8b0bd; font-size:13px; line-height:1.8 }
+    .tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px }
+    .tag{ font-size:11px; color:#cbd5e1; border:1px solid var(--border); border-radius:999px; padding:6px 10px }
+
+    /* contact */
+    .contact{
+      display:grid; grid-template-columns:1fr .7fr; gap:16px;
+    }
+    @media (max-width:900px){ .contact{ grid-template-columns:1fr } }
+    .input{ width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--border);
+      background:rgba(255,255,255,0.02); color:var(--fg); outline:none; }
+    .input:focus{ border-color:rgba(167,139,250,.6) }
+    textarea.input{ min-height:120px; resize:vertical }
+
+    /* utilities */
+    .tilt{ transform-style:preserve-3d; perspective:900px }
+    .lift{ transform: translateZ(36px) }
+    .lift-sm{ transform: translateZ(18px) }
+
+    footer{
+      position:relative; z-index:1; color:var(--muted);
+      border-top:1px solid var(--border); margin-top:24px; padding:16px 0 40px;
+      display:flex; align-items:center; justify-content:space-between; gap:16px; font-size:13px;
+    }
+    .heart{ color:var(--pink) }
+  </style>
+</head>
+<body>
+  <canvas id="glow" aria-hidden="true"></canvas>
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <header>
+    <div class="container nav-bar">
+      <div class="logo">
+        <div class="logo-badge">✨</div>
+        <div>امیر — Creative Technologist</div>
+      </div>
+      <nav>
+        <a href="#home">خانه</a>
+        <a href="#about">درباره</a>
+        <a href="#projects">پروژه‌ها</a>
+        <a href="#contact">تماس</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home" class="hero">
+    <div class="container grid">
+      <section class="card pad tilt" id="tilt-hero">
+        <div class="lift-sm" style="position:absolute; right:18px; bottom:18px; background:linear-gradient(135deg,var(--gold),#f97316); color:#111827; padding:6px 10px; border-radius:10px; font-weight:900; font-size:12px; box-shadow:0 10px 24px rgba(249,115,22,0.35); transform:rotate(-2deg)">در دسترس برای همکاری</div>
+        <h1 class="title lift">سلام، من امیر محمد صادقی ام</h1>
+        <p class="subtitle lift-sm">تخصصم ساخت تجربه‌های وب نفس‌گیر: بازی‌های تعاملی، سایت‌های هنری، و ربات‌های هوشمند. عاشق پروتوتایپ سریع و ارتقای مداومم.</p>
+
+        <div class="badges">
+          <span class="badge">Creative Coding</span>
+          <span class="badge">Web Games</span>
+          <span class="badge">AI Chatbots</span>
+          <span class="badge">API Wizardry</span>
+        </div>
+
+        <div class="cta">
+          <a class="btn" href="#projects">دیدن پروژه‌ها</a>
+          <a class="btn ghost" href="#contact">شروع گفتگو</a>
+          <a class="btn ghost" href="#" id="downloadCV">دانلود رزومه</a>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><strong>+5</strong><span>پروژه تعاملی اخیر</span></div>
+          <div class="stat"><strong>+12</strong><span>تکنولوژی در ابزارکیتم</span></div>
+          <div class="stat"><strong>∞</strong><span>ایده برای ساخت</span></div>
+        </div>
+      </section>
+
+      <aside class="tilt" id="tilt-side">
+        <div class="mini">
+          <h4 class="lift">آنچه می‌سازم</h4>
+          <p class="lift-sm">بازی‌های مرورگر با گرافیک چشم‌نواز، وب‌سایت‌های تعاملی با هویت بصری اختصاصی، و بات‌هایی که گفتگو رو واقعاً هوشمند می‌کنند.</p>
+        </div>
+        <div class="mini" style="margin-top:12px">
+          <h4>مهارت‌ها</h4>
+          <p>JavaScript, TypeScript, WebGL/Canvas, Three.js, GSAP, React, Node, Tailwind, REST/GraphQL, OAuth.</p>
+        </div>
+        <div class="mini" style="margin-top:12px">
+          <h4>شیوه کار</h4>
+          <p>نمونه اولیه سریع، تست روی کاربر، ارتقای پیوسته. نتیجه: تجربه‌ای که حس می‌شود، نه فقط دیده.</p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <section id="about" class="section">
+    <div class="container">
+      <div class="sec-head">
+        <h3>درباره من</h3>
+        <div class="badge">کرمانشاه</div>
+      </div>
+      <div class="card pad">
+        <p class="subtitle">از کودکی با بازی‌ها بزرگ شدم و با کد نویسی، بازی‌ها و هنر رو به وب آوردم. حالا برای برندها و تیم‌ها تجربه‌های تعاملی منحصر‌به‌فرد می‌سازم که هم سریع اجرا می‌شن، هم قشنگ می‌درخشند.</p>
+        <div class="badges">
+          <span class="badge">Performance-first</span>
+          <span class="badge">Accessibility-aware</span>
+          <span class="badge">Aesthetics-obsessed</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section">
+    <div class="container">
+      <div class="sec-head">
+        <h3>پروژه‌های منتخب</h3>
+        <a class="btn ghost" href="#">همه پروژه‌ها</a>
+      </div>
+      <div class="grid-3">
+        <article class="tile">
+          <div class="thumb"></div>
+          <div class="body">
+            <h4>HyperDash — بازی رانر سه‌بعدی</h4>
+            <p>رانر سبک و سریع با Three.js و کنترل‌های لمسی. تمرکز بر نورپردازی و فیزیک نرم.</p>
+            <div class="tags">
+              <span class="tag">Three.js</span>
+              <span class="tag">GSAP</span>
+              <span class="tag">WebGL</span>
+            </div>
+          </div>
+        </article>
+        <article class="tile">
+          <div class="thumb"></div>
+          <div class="body">
+            <h4>Mosaic Lab — سایت هنری تعاملی</h4>
+            <p>یک آزمایشگاه بصری برای خلق پترن‌های زنده با کنترل‌های زمان‌واقعی.</p>
+            <div class="tags">
+              <span class="tag">Canvas</span>
+              <span class="tag">React</span>
+              <span class="tag">Shaders</span>
+            </div>
+          </div>
+        </article>
+        <article class="tile">
+          <div class="thumb"></div>
+          <div class="body">
+            <h4>BotForge — چت‌بات هوشمند سفارشی</h4>
+            <p>هسته مکالمه با API، حافظه کوتاه‌مدت، و ابزارک‌های پاسخ سریع برای وب‌سایت‌ها.</p>
+            <div class="tags">
+              <span class="tag">Node</span>
+              <span class="tag">WebSockets</span>
+              <span class="tag">LLM API</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="sec-head">
+        <h3>ارتباط</h3>
+        <div class="badge">پاسخ سریع</div>
+      </div>
+      <div class="card pad contact">
+        <form id="contactForm">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
+            <input class="input" type="text" name="name" placeholder="نام شما" required />
+            <input class="input" type="email" name="email" placeholder="ایمیل" required />
+          </div>
+          <input class="input" type="text" name="subject" placeholder="موضوع" style="margin-top:12px" />
+          <textarea class="input" name="message" placeholder="پیام شما..." style="margin-top:12px" required></textarea>
+          <div class="cta" style="margin-top:12px">
+            <button class="btn" type="submit">ارسال پیام</button>
+            <button class="btn ghost" type="button" id="copyEmail">کپی ایمیل</button>
+          </div>
+        </form>
+        <div>
+          <div class="mini">
+            <h4>شبکه‌ها</h4>
+            <p>
+              <a href="#" style="color:#cbd5e1; text-decoration:none">GitHub</a> •
+              <a href="#" style="color:#cbd5e1; text-decoration:none">Twitter</a> •
+              <a href="#" style="color:#cbd5e1; text-decoration:none">LinkedIn</a>
+            </p>
+            <p style="margin-top:6px">ایمیل: <span id="emailText">a09940937@gmail.com</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="container">
+    <div>ساخته با <span class="heart">زحمت فراوان</span> و وسواس طراحی</div>
+    <div>© <span id="year"></span> امیر</div>
+  </footer>
+
+  <script>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const href = a.getAttribute('href');
+        if(href.length>1){
+          e.preventDefault();
+          document.querySelector(href)?.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      });
+    });
+
+    // Download CV (replace with your real file)
+    document.getElementById('downloadCV').addEventListener('click', (e)=>{
+      e.preventDefault();
+      // Demo behavior: show toast; to use, set href to your PDF and remove this handler
+      alert('لینک رزومه را به فایل PDF خودت تغییر بده.');
+    });
+
+    // Copy email
+    document.getElementById('copyEmail').addEventListener('click', async ()=>{
+      const email = document.getElementById('emailText').textContent.trim();
+      try{
+        await navigator.clipboard.writeText(email);
+        toast('ایمیل کپی شد: ' + email);
+      }catch{
+        toast('کپی ناموفق بود. دستی انتخاب کن.');
+      }
+    });
+
+    // Contact form (mailto fallback)
+    document.getElementById('contactForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const to = document.getElementById('emailText').textContent.trim();
+      const subject = encodeURIComponent(fd.get('subject') || 'پیام وبسایت');
+      const body = encodeURIComponent(
+        'نام: ' + (fd.get('name')||'') + '\\n' +
+        'ایمیل: ' + (fd.get('email')||'') + '\\n\\n' +
+        (fd.get('message')||'')
+      );
+      window.location.href = 'mailto:'+to+'?subject='+subject+'&body='+body;
+    });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Tiny toast
+    function toast(msg){
+      const t = document.createElement('div');
+      t.textContent = msg;
+      t.style.cssText = 'position:fixed; left:50%; transform:translateX(-50%); bottom:24px; padding:10px 14px; background:rgba(255,255,255,0.08); border:1px solid rgba(148,163,184,0.25); color:#e5e7eb; border-radius:10px; backdrop-filter:blur(6px); z-index:10; font-weight:700';
+      document.body.appendChild(t);
+      setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .4s'; }, 1600);
+      setTimeout(()=> t.remove(), 2100);
+    }
+
+    // Tilt effect
+    function bindTilt(el){
+      const r = 10; // deg
+      el.addEventListener('mousemove', (e)=>{
+        const rect = el.getBoundingClientRect();
+        const x = (e.clientX-rect.left)/rect.width - .5;
+        const y = (e.clientY-rect.top)/rect.height - .5;
+        el.style.transform = `rotateY(${x*r}deg) rotateX(${-y*r}deg)`;
+      });
+      el.addEventListener('mouseleave', ()=>{ el.style.transform='rotateY(0) rotateX(0)' });
+    }
+    ['tilt-hero','tilt-side'].forEach(id=>{ const el = document.getElementById(id); if(el) bindTilt(el); });
+
+    // Particles + glow
+    const glow = document.getElementById('glow');
+    const particles = document.getElementById('particles');
+    const dpr = Math.min(window.devicePixelRatio||1, 2);
+
+    function resize(){
+      [glow, particles].forEach(c=>{
+        c.width = innerWidth * dpr;
+        c.height = innerHeight * dpr;
+        c.style.width = innerWidth+'px';
+        c.style.height = innerHeight+'px';
+      });
+    }
+    resize(); addEventListener('resize', resize);
+
+    // Glow paint
+    (function drawGlow(){
+      const g = glow.getContext('2d');
+      g.clearRect(0,0,glow.width,glow.height);
+      const circles = [
+        {x:.15, y:.75, r:220, c:'rgba(236,72,153,0.30)'},
+        {x:.85, y:.65, r:200, c:'rgba(245,158,11,0.30)'},
+        {x:.50, y:.15, r:260, c:'rgba(99,102,241,0.26)'},
+      ];
+      circles.forEach(o=>{
+        const x = o.x*glow.width, y = o.y*glow.height, r = o.r*dpr;
+        const grd = g.createRadialGradient(x,y,0,x,y,r);
+        grd.addColorStop(0,o.c); grd.addColorStop(1,'transparent');
+        g.fillStyle = grd; g.beginPath(); g.arc(x,y,r,0,Math.PI*2); g.fill();
+      });
+    })();
+
+    // Particles animate
+    const ctx = particles.getContext('2d');
+    const P = Array.from({length: 90}, ()=>({
+      x: Math.random()*particles.width,
+      y: Math.random()*particles.height,
+      s: Math.random()*1.6+0.4,
+      vx: (Math.random()-.5)*0.2,
+      vy: (Math.random()-.5)*0.2,
+      h: Math.random()
+    }));
+    function loop(){
+      ctx.clearRect(0,0,particles.width,particles.height);
+      for(const p of P){
+        p.x+=p.vx; p.y+=p.vy; p.h+=0.002;
+        if(p.x<0||p.x>particles.width) p.vx*=-1;
+        if(p.y<0||p.y>particles.height) p.vy*=-1;
+        ctx.fillStyle = `hsla(${(p.h*360)|0},70%,70%,0.35)`;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.s*dpr, 0, Math.PI*2); ctx.fill();
+      }
+      requestAnimationFrame(loop);
+    }
+    loop();
+  </script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>سایت امیر | مینیمال و مدرن</title>
+  <meta name="description" content="یک سایت خوشگل، مینیمال و سریع برای معرفی حرفه‌ای شما." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0F172A; --fg:#E2E8F0; --muted:#94A3B8; --accent:#38BDF8; --card:#111827; --ring:#38BDF888;
+      --shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    [data-theme="light"]{
+      --bg:#F8FAFC; --fg:#0F172A; --muted:#475569; --accent:#0EA5E9; --card:#FFFFFF; --ring:#0EA5E955;
+      --shadow: 0 10px 24px rgba(2, 6, 23, .08);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{
+      font-family:"Vazirmatn", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:var(--bg); color:var(--fg); line-height:1.8;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1100px; margin:0 auto; padding:0 20px}
+    .nav{
+      position:sticky; top:0; z-index:50; backdrop-filter: blur(8px);
+      background: color-mix(in oklab, var(--bg) 85%, transparent);
+      border-bottom:1px solid color-mix(in oklab, var(--fg) 12%, transparent);
+    }
+    .nav-inner{display:flex; align-items:center; justify-content:space-between; height:70px}
+    .brand{display:flex; gap:10px; align-items:center; font-weight:800; letter-spacing:.5px}
+    .logo{
+      width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg, var(--accent), #60A5FA);
+      box-shadow: var(--shadow);
+    }
+    .nav-links{display:flex; gap:18px}
+    .btn{
+      display:inline-flex; align-items:center; gap:8px; padding:10px 16px; border-radius:12px; font-weight:600;
+      border:1px solid color-mix(in oklab, var(--fg) 14%, transparent);
+      background: color-mix(in oklab, var(--card) 100%, transparent); color:var(--fg);
+      transition:.2s transform, .2s box-shadow, .2s background;
+    }
+    .btn:hover{ transform: translateY(-2px); box-shadow: var(--shadow) }
+    .btn-accent{ background: var(--accent); color:#001018; border-color: transparent }
+    .hero{padding:90px 0 50px}
+    .hero-grid{display:grid; grid-template-columns: 1.2fr .8fr; gap:36px; align-items:center}
+    .kicker{color:var(--accent); font-weight:700; letter-spacing:.8px}
+    h1{margin:10px 0 12px; font-size:clamp(28px, 4vw, 44px); line-height:1.25}
+    .lead{color:var(--muted); font-size:clamp(15px, 2.2vw, 18px)}
+    .cta{margin-top:22px; display:flex; gap:12px; flex-wrap:wrap}
+    .card{
+      background: var(--card); border-radius:18px; padding:18px; border:1px solid color-mix(in oklab, var(--fg) 10%, transparent);
+      box-shadow: var(--shadow);
+    }
+    .mockup{
+      aspect-ratio: 4/3; border-radius:14px; background:
+        radial-gradient(1200px 400px at 20% -20%, color-mix(in oklab, var(--accent) 30%, transparent), transparent),
+        linear-gradient(180deg, color-mix(in oklab, var(--fg) 3%, transparent), transparent),
+        #0b1020;
+      overflow:hidden; display:flex; align-items:center; justify-content:center; color:#BFE9FF; font-weight:700;
+      letter-spacing:1px;
+    }
+    .section{padding:64px 0}
+    .grid-3{display:grid; grid-template-columns: repeat(3, 1fr); gap:20px}
+    .feature h3{margin:10px 0 6px}
+    .badge{font-size:12px; padding:6px 10px; border-radius:999px; border:1px dashed color-mix(in oklab, var(--fg) 16%, transparent)}
+    .gallery{display:grid; grid-template-columns: repeat(12, 1fr); gap:12px}
+    .g1{grid-column: span 4} .g2{grid-column: span 8} .g3{grid-column: span 6}
+    .img{
+      aspect-ratio: 3/2; border-radius:14px; background:
+        linear-gradient(135deg, color-mix(in oklab, var(--accent) 25%, #64748B), #0b1020);
+      border:1px solid color-mix(in oklab, var(--fg) 12%, transparent);
+    }
+    .footer{padding:28px 0 60px; color:var(--muted); font-size:14px}
+    .switch{cursor:pointer; display:inline-flex; align-items:center; gap:10px}
+    @media(max-width: 900px){
+      .hero-grid{grid-template-columns: 1fr}
+      .grid-3{grid-template-columns: 1fr}
+      .g1,.g2,.g3{grid-column: span 12}
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="logo"></div>
+        <span>Amir Studio</span>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center">
+        <a href="#work" class="btn">نمونه‌کار</a>
+        <a href="#contact" class="btn">تماس</a>
+        <button id="theme" class="btn" type="button" aria-label="تغییر تم">
+          <span>روشن/تیره</span>
+        </button>
+        <a href="#contact" class="btn btn-accent">شروع همکاری</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero container">
+    <div class="hero-grid">
+      <div>
+        <div class="kicker">طراحی وب مینیمال</div>
+        <h1>سایتی که ساده است، اما فراموش‌نشدنی.</h1>
+        <p class="lead">
+          من ظاهر را برای جذابیت می‌سازم و ساختار را برای اعتماد. نتیجه؟ سایتی سریع، واکنش‌گرا و دقیقاً مطابق هویت شما.
+        </p>
+        <div class="cta">
+          <a href="#work" class="btn btn-accent">دیدن کارها</a>
+          <a href="#contact" class="btn">مشاوره رایگان</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="mockup">پریویو طراحی</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px">
+
+          <span class="badge">بهینه برای موبایل</span>
+          <span class="badge">SEO آماده</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+ </section>
+
+  <section class="section container" id="testimonials">
+    <h2 style="margin:0 0 18px">بازخورد مشتریان</h2>
+    <div class="grid-3">
+      <div class="card">
+        <p>“طراحی تمیز و تحویل سریع؛ نرخ تبدیل ما بالا رفت.”</p>
+        <div class="badge">— شرکت ایکس</div>
+      </div>
+      <div class="card">
+        <p>“همه‌چیز از موبایل تا دسکتاپ بی‌نقص بود.”</p>
+        <div class="badge">— برند وای</div>
+      </div>
+      <div class="card">
+        <p>“دقیقاً همانی شد که می‌خواستیم—بدون حاشیه.”</p>
+        <div class="badge">— تیم زد</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container" id="contact">
+    <div class="card">
+      <h2 style="margin-top:0">شروع همکاری</h2>
+      <form onsubmit="event.preventDefault(); alert('پیامت رسید امیر! بزودی جواب می‌دم.');">
+        <div style="display:grid; gap:12px; grid-template-columns:1fr 1fr">
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <label>نام</label>
+            <input required placeholder="نام شما" style="padding:12px 14px; border-radius:12px; border:1px solid color-mix(in oklab, var(--fg) 14%, transparent); background:transparent; color:var(--fg)" />
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <label>ایمیل</label>
+            <input type="email" required placeholder="you@example.com" style="padding:12px 14px; border-radius:12px; border:1px solid color-mix(in oklab, var(--fg) 14%, transparent); background:transparent; color:var(--fg)" />
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; margin-top:12px">
+          <label>پیام</label>
+          <textarea rows="4" placeholder="مختصر بگو چی می‌خوای؛ من جزئیات رو درمیارم." style="padding:12px 14px; border-radius:12px; border:1px solid color-mix(in oklab, var(--fg) 14%, transparent); background:transparent; color:var(--fg)"></textarea>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px">
+          <span class="badge">زمان معمول تحویل: ۵–۷ روز</span>
+          <button class="btn btn-accent" type="submit">ارسال پیام</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer container">
+    <div>© 2025 Amir Studio — همه حقوق محفوظ است.</div>
+  </footer>
+
+  <script>
+    const root = document.body;
+    const btn = document.getElementById('theme');
+    const saved = localStorage.getItem('theme');
+    if(saved){ root.setAttribute('data-theme', saved); }
+    btn.addEventListener('click', ()=>{
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+    // اسکرول نرم
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+      });
+    });
+  </script>
+</body>
+</html>
+
